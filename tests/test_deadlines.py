@@ -25,6 +25,8 @@ FEEDS = {
     "https://stemedplus.github.io/stemed-funding/feeds/deadlines.ics": cal(
         event("f1@stemed-funding", "20261201", "Deadline: Example Grant (NSF)", description="A long description, with commas; and semicolons " * 3),
         event("f0@stemed-funding", "20261001", "Deadline: Past Grant (NSF)")),
+    "https://stemedplus.github.io/stemed-awards/feeds/deadlines.ics": cal(
+        event("award-nsta@stemed-awards", "20261218", "Nominations due: NSTA Teacher Awards (National Science Teaching Association)")),
     "https://stemedplus.github.io/stemed-conferences/feeds/deadlines.ics": cal(
         event("c1@stemed-conferences", "20261120", "Proposals due: NARST 2027")),
     "https://stemedplus.github.io/stemed-professional-development/feeds/deadlines.ics": cal(
@@ -58,16 +60,16 @@ class BuildTests(unittest.TestCase):
             payload = build.run(out, None, TODAY, get=fake_get)
             self.assertEqual([d["uid"] for d in payload["deadlines"]],
                              ["c1@stemed-conferences", "p1@stemed-professional-development", "f1@stemed-funding",
-                              "d1@stemed-professional-development"])
+                              "award-nsta@stemed-awards", "d1@stemed-professional-development"])
             self.assertTrue(all(s["ok"] for s in payload["status"]))
-            for name in ("index.html", "embed.html", "deadlines.json", "feeds/all.ics", "feeds/funding.ics",
+            for name in ("index.html", "embed.html", "deadlines.json", "feeds/all.ics", "feeds/funding.ics", "feeds/awards.ics",
                          "feeds/professional-development.ics", "feeds/faculty-development.ics",
                          "feeds/professional-learning.ics", "feeds/upcoming-faculty-development.xml", "stemedplus-theme.css"):
                 self.assertTrue((out / name).exists(), name)
             text = (out / "feeds" / "all.ics").read_bytes().decode("utf-8")
             self.assertTrue(all(len(line.encode()) <= 75 for line in text.split("\r\n")))
             events = ics.parse(text)
-            self.assertEqual(len(events), 4)
+            self.assertEqual(len(events), 5)
             self.assertTrue(any(e["summary"] == "[Conferences] Proposals due: NARST 2027" for e in events))
             self.assertTrue(all("From STEMEd+" in e["description"] for e in events))
             only_funding = ics.parse((out / "feeds" / "funding.ics").read_bytes().decode("utf-8"))
@@ -80,7 +82,7 @@ class BuildTests(unittest.TestCase):
             root = ET.parse(Path(tmp) / "feeds" / "upcoming.xml").getroot()
             titles = [i.findtext("title") for i in root.findall("./channel/item")]
             self.assertEqual(titles[0], "Nov. 20: Proposals due: NARST 2027")
-            self.assertEqual(len(titles), 3)                      # the January deadline is beyond 60 days
+            self.assertEqual(len(titles), 4)                      # the January deadline is beyond 60 days
             self.assertIsNone(root.find("./channel/item/pubDate"))
             one = ET.parse(Path(tmp) / "feeds" / "upcoming-funding.xml").getroot()
             self.assertEqual([i.findtext("title") for i in one.findall("./channel/item")],

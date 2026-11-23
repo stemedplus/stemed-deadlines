@@ -14,6 +14,7 @@ Each day this site downloads the deadline calendars published by:
 | Site | Calendar | What it holds |
 |---|---|---|
 | [STEMEd+ Funding](https://stemedplus.github.io/stemed-funding/) | `feeds/deadlines.ics` | open calls for STEM+ teaching and STEM+ education research |
+| [STEMEd+ Awards](https://stemedplus.github.io/stemed-awards/) | `feeds/deadlines.ics` | nomination deadlines for national and international teaching, education research, and science communication awards |
 | [STEMEd+ Conferences](https://stemedplus.github.io/stemed-conferences/) | `feeds/deadlines.ics` | proposal, registration, and travel-award deadlines |
 | [STEMEd+ Professional Development](https://stemedplus.github.io/stemed-professional-development/) | `feeds/deadlines.ics` | programs for K-12 teachers, informal educators, college faculty and instructors, and graduate students and postdocs |
 
@@ -28,7 +29,7 @@ It keeps deadlines from today on, puts the site's name in front of each event (f
 |---|---|
 | `index.html` | the page: deadlines grouped by day, "next 60 days" by default, with search and a site filter |
 | `feeds/all.ics` | one calendar with every deadline |
-| `feeds/<site>.ics` | one calendar per site (`funding`, `conferences`, `professional-learning`, `faculty-development`) |
+| `feeds/<site>.ics` | one calendar per site (`funding`, `awards`, `conferences`, `professional-development`, and the older `professional-learning` and `faculty-development`) |
 | `embed.html` | a compact view with subscribe buttons, for embedding in another website (see below) |
 | `deadlines.json` | everything listed |
 
@@ -66,7 +67,8 @@ and give it this feed:
 
 It lists the next 60 days, soonest first, each title starting with its date ("Nov. 30: Applications due: ...").
 Turn on "Display excerpt" to show which site each deadline comes from, and set "Items" to how many to show.
-One site only: `feeds/upcoming-funding.xml`, `upcoming-conferences.xml`, `upcoming-professional-learning.xml`,
+One site only: `feeds/upcoming-funding.xml`, `upcoming-awards.xml`, `upcoming-conferences.xml`,
+`upcoming-professional-development.xml`, and the older `upcoming-professional-learning.xml` and
 `upcoming-faculty-development.xml`. WordPress refreshes feeds every few hours.
 
 **Subscribe buttons.** Plain links work anywhere:

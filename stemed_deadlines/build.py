@@ -139,7 +139,7 @@ def run(out: Path, previous: Optional[str], today: dt.date, get: Callable[[str],
     feeds = out / "feeds"
     feeds.mkdir(parents=True, exist_ok=True)
     (feeds / "all.ics").write_bytes(ics.calendar(
-        cfg["title"], "Every deadline from STEMEd+ Funding, Conferences, and Professional Development. "
+        cfg["title"], "Every deadline from STEMEd+ Funding, Awards, Conferences, and Professional Development. "
                       "Always confirm on the sponsor's page.", unique, stamp))
     for s in cfg["sources"]:
         # A merged site's feeds are also written under its old names, so existing subscriptions keep working.
